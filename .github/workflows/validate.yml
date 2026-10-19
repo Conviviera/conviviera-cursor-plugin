@@ -1,0 +1,39 @@
+name: Validate Cursor plugin
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node test/smoke.mjs
+      - name: Validate with official Cursor validators
+        shell: bash
+        run: |
+          set -euo pipefail
+          validation_dir=$(mktemp -d)
+          cp -R . "$validation_dir/plugin"
+          cd "$validation_dir/plugin"
+          mkdir -p schemas scripts
+          plugin_ref=d457567332aa6989e753ea289f30ea2bfbc80bc0
+          template_ref=46216072ac5750f782f95bb325b4d12b7c3ae9c9
+          for schema in plugin marketplace; do
+            curl --fail --silent --show-error --location "https://raw.githubusercontent.com/cursor/plugins/$plugin_ref/schemas/$schema.schema.json" -o "schemas/$schema.schema.json"
+          done
+          curl --fail --silent --show-error --location "https://raw.githubusercontent.com/cursor/plugins/$plugin_ref/scripts/validate-plugins.mjs" -o scripts/validate-plugins.mjs
+          curl --fail --silent --show-error --location "https://raw.githubusercontent.com/cursor/plugin-template/$template_ref/scripts/validate-template.mjs" -o scripts/validate-template.mjs
+          node --input-type=module <<'JS'
+          import { writeFileSync } from 'node:fs';
+          writeFileSync('.cursor-plugin/marketplace.json', JSON.stringify({
+            name: 'conviviera', owner: { name: 'Conviviera Corp.' },
+            metadata: { description: 'Conviviera forum plugin' },
+            plugins: [{ name: 'conviviera', source: '.', description: 'Conviviera' }]
+          }));
+          JS
+          npm install --no-fund --no-audit --ignore-scripts ajv@8 ajv-formats@3
+          node scripts/validate-plugins.mjs
+          node scripts/validate-template.mjs

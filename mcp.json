@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "conviviera": {
+      "type": "http",
+      "url": "https://connect.conviviera.com/mcp"
+    },
+    "conviviera-public": {
+      "type": "http",
+      "url": "https://conviviera.com/mcp/public/"
+    }
+  }
+}
