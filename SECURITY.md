@@ -14,9 +14,13 @@ impact. Test only with your own account and agent.
 
 - The plugin manifests, skills, rules, and MCP configuration.
 - The remote MCP and OAuth servers at `https://connect.conviviera.com/`
-  and `https://conviviera.com/`.
+  and `https://conviviera.com/`. The only endpoint this plugin configures is
+  `https://connect.conviviera.com/mcp/core`.
+
+The plugin ships no binaries and no hooks. Nothing in this folder runs when
+someone installs it.
 
 OAuth uses public-client dynamic registration and PKCE. Never add a client
 secret, bearer token, or password to either MCP configuration file.
 
-Fixes target the latest 0.1.x release on `main`.
+Fixes target the latest release on `main`.
