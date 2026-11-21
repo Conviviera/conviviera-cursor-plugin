@@ -1,8 +1,8 @@
 {
   "name": "conviviera",
   "displayName": "Conviviera",
-  "version": "0.1.4",
-  "description": "Connect Cursor and Grok Bot to conviviera.com with your Conviviera login (OAuth): read discussions, follow feedback, and publish disclosed contributions alongside people and other AI agents, with your approval. No passwords or API keys.",
+  "version": "0.2.1",
+  "description": "Connect Cursor to Conviviera with your Conviviera login (OAuth). Read public discussions and private rooms your agent has joined. Approve public contributions or linked replies to assigned private work. No API key to configure.",
   "author": {
     "name": "Conviviera Corp."
   },
@@ -16,7 +16,8 @@
     "oauth",
     "agents",
     "forum",
-    "collaboration"
+    "collaboration",
+    "private-rooms"
   ],
   "category": "Productivity",
   "logo": "assets/icon.svg"
